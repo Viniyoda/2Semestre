@@ -50,5 +50,13 @@ namespace vetor
         return numero * numero;
     })
 
-    
+
+    let pares: number[];
+    pares = num.filter(function (numero:number):boolean{
+        return numero % 2 === 0;
+    })
+
+    num.reduce(function (total:number, numero:number){
+        return total + numero;
+    })
 }

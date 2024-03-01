@@ -1,0 +1,9 @@
+PokeKillGame
+PokeMasterKill
+Pokekill223!
+
+score
+
+id
+nome
+pontos

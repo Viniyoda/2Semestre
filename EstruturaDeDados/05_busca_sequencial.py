@@ -32,3 +32,38 @@ print(f"Elemento -15 encontrado na posicao {pos_menos15}")
 
 pos19 = busca_sequencial(nums,19)
 print(f"Elemento 19 encontrado na posicao {pos19}")
+
+print("-"*60)
+
+# TESTES COM NOMES
+
+import sys
+sys.dont_write_bytecode = True
+
+from time import time
+
+from data.nomes_completos import nomes
+
+hora_ini = time()
+resultado1 = busca_sequencial(nomes, "EDSON PEREIRA")
+hora_fim = time()
+print(f"EDSON PEREIRA encontrado na posicao {resultado1}")
+print(f"Tempo gasto: {(hora_fim - hora_ini) * 1000}ms/n")
+
+hora_ini = time()
+resultado2 = busca_sequencial(nomes, "MARIA FERREIRA")
+hora_fim = time()
+print(f"MARIA FERREIRA encontrado na posicao {resultado2}")
+print(f"Tempo gasto: {(hora_fim - hora_ini) * 1000}ms/n")
+
+hora_ini = time()
+resultado3 = busca_sequencial(nomes, "VALDIR SILVA")
+hora_fim = time()
+print(f"VALDIR SILVA encontrado na posicao {resultado3}")
+print(f"Tempo gasto: {(hora_fim - hora_ini) * 1000}ms/n")
+
+hora_ini = time()
+resultado4 = busca_sequencial(nomes, "GILCINEIA GARCIA")
+hora_fim = time()
+print(f"GILCINEIA GARCIA encontrado na posicao {resultado4}")
+print(f"Tempo gasto: {(hora_fim - hora_ini) * 1000}ms/n")

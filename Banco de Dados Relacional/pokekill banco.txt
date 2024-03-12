@@ -2,8 +2,8 @@ PokeKillGame
 PokeMasterKill
 Pokekill223!
 
-score
+scores2
 
 id
-nome
-pontos
+name
+score

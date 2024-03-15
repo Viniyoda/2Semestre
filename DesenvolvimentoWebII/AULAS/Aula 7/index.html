@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula 07</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+
+    <div id="app">
+        <h1 v-bind:style="{ backgroundColor: corFundo }">
+            A cor do css está setada para {{ corFundo }} </h1>
+        <button v-on:click="trocaCor()">Troca cor</button>
+        <p> {{ qtdClick }} </p>
+    </div>
+    
+</body>
+</html>
+
+<script>
+    const { createApp } = Vue;
+    createApp({
+        data() {
+            return {
+                corFundo: 'grey',
+                corFundo1: '#22fabc',
+                qtdClick: 0,
+            }
+        },
+        methods: {
+            trocaCor() {
+                let aux = this.corFundo;
+                this.corFundo = this.corFundo1;
+                this.corFundo1 = aux;
+                this.qtdClick += 1
+            }
+        }
+    }).mount("#app")
+</script>

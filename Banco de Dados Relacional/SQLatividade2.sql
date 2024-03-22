@@ -126,27 +126,3 @@ SELECT * FROM produtos;
 SELECT * FROM fornecedores;
 SELECT * FROM produto_fornecedor;
 
-SELECT marca_id, count(prod_id) AS QuantProd 
-FROM produtos GROUP BY marca_id ORDER BY count(prod_id);
-
-SELECT marca_id, AVG(valor) AS PrecoMedio FROM produtos 
-GROUP BY marca_id ORDER BY AVG(valor);
-
-SELECT AVG(valor) AS PrecoMedio, count(qtd_estoque) AS QuantProd 
-FROM produtos GROUP BY marca_id;
-
-SELECT count(prod_id) AS TotalProd FROM produtos;
-
-SELECT AVG(valor) AS PrecoMedio FROM produtos;
-
-				SELECT IF(perecivel = 1, 'Perecível', 'Não Perecível') AS tipo, 
-				AVG(valor) AS PrecoMedio FROM produtos GROUP BY perecivel;
-
-SELECT AVG(valor) AS PrecoMedio FROM produtos GROUP BY nome_prod;
-
-SELECT AVG(valor) AS PrecoMedio, 
-count(qtd_estoque) AS TotalProd FROM produtos;
-
-				SELECT  nome_prod, marca_id, count(qtd_estoque) FROM produtos MAX(valor);
-
-SELECT nome_prod, valor, AVG(valor) FROM produtos WHERE valor > AVG(valor) GROUP BY produtos;

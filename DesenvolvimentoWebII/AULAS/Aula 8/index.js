@@ -63,23 +63,20 @@ createApp({
             if (operator === '/'){
                 value = numberBefore / numberAfter;
                 console.log(value);
-                numberAfter = value;
             }
             if (operator === 'X'){
                 value = numberBefore * numberAfter;
                 console.log(value);
-                numberAfter = value;
             }
             if (operator === '-'){
                 value = numberBefore - numberAfter;
                 console.log(value);
-                numberAfter = value;
             }
             if (operator === '+'){
                 value = numberBefore + numberAfter;
                 console.log(value);
-                numberAfter = value;
             }
+            numberAfter = value;
             this.display = value;
         },
         handlerNumber(botao) {

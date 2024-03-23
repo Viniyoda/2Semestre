@@ -3,11 +3,14 @@ const { createApp } = Vue;
 createApp({
     data() {
         return {
-            display: "0",
-            numeroAnterior: null,
-            numeroAtual: null,
-            operador: null
+            display: "0"
         }
+    },
+    setup() {
+        const numberAfter = 0;
+        const numberBefore = 0;
+        const operator = '';
+        const value = 0;
     },
     methods: {
         lidarBotao(botao) {
@@ -17,53 +20,73 @@ createApp({
                 case '/':
                 case '-':
                 case '+':
-                    this.lidarOperador(botao);
+                    this.handlerOperator(botao);
                     break;
 
                 case '.':
-                    this.lidarDecimal();
+                    this.handlerDecimal();
                     break;
 
                 case 'C':
-                    this.lidarLimpar();
+                    this.handlerClear();
                     break;
 
                 case '=':
-                    this.lidarIgual();
+                    this.handlerEquals();
                     break;
 
                 default:
-                    this.lidarNumeros(botao);
+                    this.handlerNumber(botao);
             }
         },
-        lidarOperador(botao) {
-            this.display = botao;
-            var operador = '';
-            operador = botao;
-            console.log("O operador digitado foi: ", operador)
+        handlerClear() {
+            this.display = '0';
+            numberAfter = 0;
+            numberBefore = 0;
+            operator = '';
+            value = 0;
         },
-        lidarDecimal() {
+        handlerOperator(botao) {
+            this.display = botao;
+            operator = botao;
+            console.log("O operator digitado foi: ", operator)
+            numberBefore = numberAfter;
+            numberAfter = 0;
+            console.log(numberBefore);
+            console.log(numberAfter);
+        },
+        handlerDecimal() {
             console.log("Entrou no decimal")
         },
-        lidarLimpar() {
-            this.display = '0';
-            this.numeroAtual = null;
-            this.numeroAnterior = null;
-            this.operador = null;
-        },
-        lidarIgual() {
+        handlerEquals(value) {
             console.log("Entrou no igual");
+            if (operator === '/'){
+                value = numberBefore / numberAfter;
+                console.log(value);
+                numberAfter = value;
+            }
+            if (operator === 'X'){
+                value = numberBefore * numberAfter;
+                console.log(value);
+                numberAfter = value;
+            }
+            if (operator === '-'){
+                value = numberBefore - numberAfter;
+                console.log(value);
+                numberAfter = value;
+            }
+            if (operator === '+'){
+                value = numberBefore + numberAfter;
+                console.log(value);
+                numberAfter = value;
+            }
+            this.display = value;
         },
-        lidarNumeros(botao) {
+        handlerNumber(botao) {
             this.display = botao;
             console.log("O botao digitado foi: ", botao);
-            let numeroAtual = parseFloat(botao);
-            let numeroAnterior = 0;
-            console.log(numeroAtual);
-            if (operador == '+'){
-                numeroAnterior = numeroAtual;
-                numeroAtual = parseFloat(botao);
-            }
+            numberAfter = parseFloat(botao);
+            console.log(numberAfter);
         }
     }
 }).mount(app);

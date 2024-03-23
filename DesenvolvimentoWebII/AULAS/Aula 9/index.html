@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V-Model e V-IF</title>
+    <script src="/DesenvolvimentoWebII/AULAS/Aula 8/vue.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <h1> {{ fullName() }}</h1>
+        <hr>
+
+        <label>Primeiro Nome</label>
+        <input type="text" v-model="firstName">
+        <label>Sobrenome</label>
+        <input type="text" v-model="lastName">
+        <hr>
+
+        <input type="button" value="Quebrar" @click="onOff()">
+        <input type="text" v-model="destruir">
+        <br>
+        <img v-if="destruir != 'quebrar' " src="/DesenvolvimentoWebII/AULAS/light_on-512.webp">
+        <img v-else src="/DesenvolvimentoWebII/AULAS/broken_lightbulb_lamp_light_bulb-512.webp">
+    </div>
+</body>
+</html>
+
+<script src="index.js"></script>

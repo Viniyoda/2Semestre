@@ -37,7 +37,10 @@ createApp({
             }
         },
         lidarOperador(botao) {
-            console.log("O botao digitado foi: ", botao);
+            this.display = botao;
+            var operador = '';
+            operador = botao;
+            console.log("O operador digitado foi: ", operador)
         },
         lidarDecimal() {
             console.log("Entrou no decimal")
@@ -52,10 +55,15 @@ createApp({
             console.log("Entrou no igual");
         },
         lidarNumeros(botao) {
-            console.log("O botao digitado foi: ", botao);
             this.display = botao;
+            console.log("O botao digitado foi: ", botao);
             let numeroAtual = parseFloat(botao);
+            let numeroAnterior = 0;
             console.log(numeroAtual);
+            if (operador == '+'){
+                numeroAnterior = numeroAtual;
+                numeroAtual = parseFloat(botao);
+            }
         }
     }
 }).mount(app);

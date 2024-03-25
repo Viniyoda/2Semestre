@@ -1,10 +1,16 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .linha {
     display: flex;
 }
 
 .calculadora {
-    background-color: #dbdbdb;
-    width: 158px;
+    background-color: #000000;
+    width: 146px;
     border-radius: 5px;
     padding: 6px;
 }
@@ -14,18 +20,18 @@ button {
     height: 35px;
     border: none;
     margin: 1px;
-    border-radius: 5px;
+    border-radius: 100%;
     background-color: #ffffff;
 }
 button:hover {
-    background-color: #b2fcff;
+    background-color: #e3e3e3;
 }
 
 .operador {
-    background-color: #ffb0b0;
+    background-color: #ffb941;
 }
 .operador:hover {
-    background-color: #ff9595;
+    background-color: #fdad23;
 }
 
 .igual {

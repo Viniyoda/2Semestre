@@ -3,7 +3,8 @@ const { createApp } = Vue;
 createApp({
     data() {
         return {
-            display: "0"
+            display: "0",
+            value: ''
         }
     },
     setup() {
@@ -44,12 +45,11 @@ createApp({
             numberAfter = 0;
             numberBefore = 0;
             operator = '';
-            value = 0;
+            this.value = 0;
         },
         handlerOperator(botao) {
             this.display = botao;
             operator = botao;
-            console.log("O operator digitado foi: ", operator)
             numberBefore = numberAfter;
             numberAfter = 0;
             console.log(numberBefore);
@@ -57,32 +57,36 @@ createApp({
         },
         handlerDecimal() {
             console.log("Entrou no decimal")
+            this.display += '.';
         },
-        handlerEquals(value) {
+        handlerEquals() {
             console.log("Entrou no igual");
             if (operator === '/'){
-                value = numberBefore / numberAfter;
-                console.log(value);
+                this.value = numberBefore / numberAfter;
+                console.log(this.value);
             }
             if (operator === 'X'){
-                value = numberBefore * numberAfter;
-                console.log(value);
+                this.value = numberBefore * numberAfter;
+                console.log(this.value);
             }
             if (operator === '-'){
-                value = numberBefore - numberAfter;
-                console.log(value);
+                this.value = numberBefore - numberAfter;
+                console.log(this.value);
             }
             if (operator === '+'){
-                value = numberBefore + numberAfter;
-                console.log(value);
+                this.value = numberBefore + numberAfter;
+                console.log(this.value);
             }
-            numberAfter = value;
-            this.display = value;
+            numberAfter = this.value;
+            this.display = this.value;
         },
         handlerNumber(botao) {
-            this.display = botao;
-            console.log("O botao digitado foi: ", botao);
-            numberAfter = parseFloat(botao);
+            if (['0', '/', 'X', '-', '+', this.value].includes(this.display)) {
+                this.display = botao.toString();
+            } else {
+                this.display += botao.toString();
+            }
+            numberAfter = parseFloat(this.display);
             console.log(numberAfter);
         }
     }

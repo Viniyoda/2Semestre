@@ -70,6 +70,9 @@ DROP TABLE Especies;
 DELETE FROM Animais;
 SELECT * FROM Animais;
 
+
+
+
 /* Exercicios 2
 Selecione quantos produtos cada marca possui.​
 Selecione o preço médio dos produtos de cada marca.​
@@ -87,7 +90,6 @@ Selecione a quantidade de produtos de cada nacionalidade.
 drop database if exists Empresa;
 create database Empresa;
 use Empresa;
-
 
 create table marcas (
 	marca_id		int 			auto_increment		primary key,
@@ -126,3 +128,39 @@ SELECT * FROM produtos;
 SELECT * FROM fornecedores;
 SELECT * FROM produto_fornecedor;
 
+SELECT COUNT(prod_id) AS QuantProd, marca_id 
+FROM produtos GROUP BY marca_id ORDER BY marca_id;
+
+SELECT AVG(valor) AS PrecoMedio, marca_id 
+FROM produtos GROUP BY marca_id ORDER BY marca_id;
+
+SELECT AVG(valor) AS PrecoMedio, COUNT(qtd_estoque) AS QuantEstq, marca_id
+FROM produtos GROUP BY marca_id ORDER BY marca_id;
+
+SELECT COUNT(prod_id) AS QuantProd FROM produtos;
+
+SELECT AVG(valor) AS PrecoMedio FROM produtos;
+
+SELECT AVG(valor) AS PrecoMedio, 
+	CASE
+		when produtos.perecivel = 0 then 'Não'
+		when produtos.perecivel = 1 then 'SIM'
+	END 'Perecível' FROM produtos GROUP BY perecivel;
+
+SELECT AVG(valor) AS PrecoMedio, nome_prod
+FROM produtos GROUP BY nome_prod ORDER BY nome_prod;
+
+SELECT AVG(valor) AS PrecoMedio, 
+COUNT(qtd_estoque) AS QuantEstq FROM produtos;
+
+SELECT p.nome_prod, m.nome_marca, p.qtd_estoque
+FROM produtos p
+INNER JOIN marcas m ON p.marca_id = m.marca_id
+WHERE p.valor = (SELECT MAX(valor) FROM produtos);
+
+SELECT prod_id, nome_prod, valor 
+FROM produtos WHERE valor > (SELECT AVG(valor) FROM produtos);
+
+SELECT m.origem AS Nacionalidade, COUNT(p.qtd_estoque) AS quantidade
+FROM produtos p JOIN marcas m ON p.marca_id = m.marca_id
+GROUP BY m.origem;

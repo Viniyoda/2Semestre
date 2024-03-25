@@ -1,8 +1,0 @@
-Entrega 1
-nome do projeto
-situação problema
-solução
-objetivo do projeto
-metodologia -> RF/RNF
-canvas
-cronograma

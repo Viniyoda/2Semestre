@@ -1,33 +1,28 @@
+frutas = ["laranja", "maçã", "uva", "pera", "mamão", "abacate", "amora"]
 
-frutas = ['laranja', 'maca', 'uva', 'pera', 'mamao', 'abacate', 'amora']
-
-# para percorrer uma lista e exibir apenas seus elementos,
-# usamos a estrutura for..in, como ja visto no aquivo n-2
-
+# Para percorrer uma lista e exibir apenas seus elementos,
+# usamos a estrutura for..in, como já visto no arquivo nº 02
 for f in frutas:
     print(f)
 
-print("-"*60)
+print("-" * 40)
 
-# percorrendo uma lista em ordem inversa: reversed()
-
+# Percorrendo uma lista em ordem inversa: reversed()
 for x in reversed(frutas):
     print(x)
 
-print("-"*60)
+print("-" * 40)
 
-# no entanto, frequentemente precisamos exibir, além do
-# valor do elemento, também sua posição. nesse caso, devemos
-# usar a função for..in combinado com as funções range() e len()
-
+# No entanto, frequentemente precisamos exibir, além do 
+# valor do elemento, também sua posição. Nesse caso, devemos
+# usar a função for..in combinada com as funções range() e len()
 for pos in range(len(frutas)):
-    print(pos, ':', frutas[pos])
+    print(pos, ":", frutas[pos])
 
-print("-"*60)
+print("-" * 40)
 
-# as vezes é necessario percorrer a lista de trás para frente,
-# mas tendo acesso também a posição dos elementos. para isso,
+# Às vezes, é necessário percorrer a lista de trás para a frente,
+# mas tendo acesso também à posição dos elementos. Para isso,
 # usamos a estrutura for..in, len() e range() com três parâmetros
-
-for i in range(len(frutas) -1, -1, -1):
-    print(i, ':', frutas[1])
+for i in range(len(frutas) - 1, -1, -1):
+    print(i, ":", frutas[i])

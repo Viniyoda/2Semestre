@@ -37,6 +37,8 @@ def bubble_sort(lista):
 
             comps += 1
 
+        print(lista)
+
         # Se não houve trocas na passada, a lista está ordenada
         # e interrompemos o loop eterno while True
         # <~ CUIDADO COM A INDENTAÇÃO
@@ -45,18 +47,20 @@ def bubble_sort(lista):
 
 #########################################################################
         
-#nums = [7, 5, 9, 0, 3, 4, 8, 1, 6, 2]
+nums = [7, 5, 9, 0, 3, 4, 8, 1, 6, 2]
 
 # Pior caso       
 #nums = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
         
 # Melhor caso
-nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+#nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 print('ANTES:', nums)
 bubble_sort(nums)
 print('DEPOIS:', nums)
 print(f"Passadas: {passd}; comparações: {comps}; trocas: {trocas}")
+
+exit()  # Termina o progama aqui
 
 #############################################################
 # TESTE COM 1M+ DE NOMES

@@ -57,10 +57,33 @@ def merge_sort(lista):
         tam_part *= 2
     return lista
 
-############################################################
+################################################################################
 
-nums = [7, 3, 6, 8, 1, 4, 9, 0, 5, 2]
+import sys, tracemalloc
+sys.dont_write_bytecode = True  # Impede a criação do cache
+from time import time
 
-nums_ord = merge_sort(nums)
+################################################################################
 
-print(nums_ord)
+# Importando a lista de empresas
+from data.emp10mil import empresas
+#from data.emp25mil import empresas
+#from data.emp50mil import empresas
+#from data.emp100mil import empresas
+
+################################################################################
+
+tracemalloc.start()         # Inicia medição do consumo de memória
+hora_ini = time()
+emps_ord = merge_sort(empresas)
+hora_fim = time()
+
+# Captura as informações de gasto de memória
+mem_atual, mem_pico = tracemalloc.get_traced_memory()
+tracemalloc.stop()          # Termina a medição de memória
+
+#########################################################################
+
+print(emps_ord)    # Lista após ordenação
+print(f"Tempo gasto: {(hora_fim - hora_ini) * 1000}ms\n")
+print(f"Pico de memória: { mem_pico / 1024 / 1024 }MB")

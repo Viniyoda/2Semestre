@@ -1,7 +1,10 @@
+passd = comps = trocas = 0
+
 def quick_sort(lista, ini = 0, fim = None):
     """
         Função que implementa o algoritmo Quick Sort de forma ITERATIVA
     """
+    global passd, comps, trocas
 
     if fim is None: fim = len(lista) - 1
 

@@ -75,44 +75,36 @@ def merge_sort(lista):
     else:
         return lista
     
-########################################################################
-
-#nums = [7, 5, 9, 0, 3, 4, 8, 1, 6, 2]
-#nums = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
-#nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-#nums = [9, 0, 1, 2, 3, 4, 5, 6, 7, 8]
-nums = [0, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-
-print('ANTES:', nums)
-nums_ord = merge_sort(nums)
-print('DEPOIS:', nums_ord)
-print(f"Divisões: {divs}, junções: {juncs}, comparações: {comps}")
-
-#############################################################
-# TESTE COM 1M+ DE NOMES
+################################################################################
 
 import sys, tracemalloc
 sys.dont_write_bytecode = True  # Impede a criação do cache
 from time import time
 
-# Importando a lista de nomes
-from data.nomes_desord import nomes
+################################################################################
 
-# Recortando os primeiros 10k nomes
-#nomes = nomes[:10000]
+# Importando a lista de empresas
+from data.emp10mil import empresas
+#from data.emp25mil import empresas
+#from data.emp50mil import empresas
+#from data.emp100mil import empresas
 
-divs = juncs = comps = 0
+################################################################################
+
+#divs = juncs = comps = 0
 
 tracemalloc.start()         # Inicia medição do consumo de memória
 hora_ini = time()
-nomes_ord = merge_sort(nomes)
+emps_ord = merge_sort(empresas)
 hora_fim = time()
 
 # Captura as informações de gasto de memória
 mem_atual, mem_pico = tracemalloc.get_traced_memory()
 tracemalloc.stop()          # Termina a medição de memória
 
-print(nomes_ord)    # Lista após ordenação
+#########################################################################
+
+print(emps_ord)    # Lista após ordenação
 print(f"Tempo gasto: {(hora_fim - hora_ini) * 1000}ms\n")
 print(f"Divisões: {divs}, junções: {juncs}, comparações: {comps}")
 print(f"Pico de memória: { mem_pico / 1024 / 1024 }MB")

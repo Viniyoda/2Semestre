@@ -84,14 +84,12 @@ from time import time
 ################################################################################
 
 # Importando a lista de empresas
-from data.emp10mil import empresas
+#from data.emp10mil import empresas
 #from data.emp25mil import empresas
 #from data.emp50mil import empresas
 #from data.emp100mil import empresas
 
 ################################################################################
-
-#divs = juncs = comps = 0
 
 tracemalloc.start()         # Inicia medição do consumo de memória
 hora_ini = time()
@@ -104,7 +102,6 @@ tracemalloc.stop()          # Termina a medição de memória
 
 #########################################################################
 
-print(emps_ord)    # Lista após ordenação
 print(f"Tempo gasto: {(hora_fim - hora_ini) * 1000}ms\n")
 print(f"Divisões: {divs}, junções: {juncs}, comparações: {comps}")
 print(f"Pico de memória: { mem_pico / 1024 / 1024 }MB")

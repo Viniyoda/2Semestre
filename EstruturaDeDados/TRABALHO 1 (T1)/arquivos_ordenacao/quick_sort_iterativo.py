@@ -32,18 +32,23 @@ def quick_sort(lista, ini = 0, fim = None):
         pos = pos - 1
         ini = aux[pos]
         pos = pos - 1
+
+        passd += 1  # Incrementa o contador de passadas
   
         # Coloca o pivô em sua posição correta na lista ordenada
         i = ini - 1
         x = lista[fim]
     
         for j in range(ini , fim):
+            comps += 1  # Incrementa o contador de comparações
             if lista[j] <= x:
                 # Incrementa a posição do menor elemento
                 i = i + 1
                 lista[i], lista[j] = lista[j], lista[i]
+                trocas += 1  # Incrementa o contador de trocas
     
         lista[i + 1], lista[fim] = lista[fim], lista[i + 1]
+        trocas += 1  # Incrementa o contador de trocas
         
         pivot = i + 1
   
@@ -63,10 +68,33 @@ def quick_sort(lista, ini = 0, fim = None):
             pos = pos + 1
             aux[pos] = fim
 
-########################################################################
+###############################################################
 
-nums = [7, 3, 6, 8, 1, 4, 9, 0, 5, 2]
+import sys, tracemalloc
+sys.dont_write_bytecode = True  # Impede a criação do cache
+from time import time
 
-quick_sort(nums)
+###############################################################
 
-print(nums)
+# Importando a lista de empresas
+#from data.emp10mil import empresas
+#from data.emp25mil import empresas
+#from data.emp50mil import empresas
+from data.emp100mil import empresas
+
+###############################################################
+
+tracemalloc.start()         # Inicia medição do consumo de memória
+hora_ini = time()
+quick_sort(empresas)
+hora_fim = time()
+
+# Captura as informações de gasto de memória
+mem_atual, mem_pico = tracemalloc.get_traced_memory()
+tracemalloc.stop()          # Termina a medição de memória
+
+###############################################################
+
+print(f"Tempo gasto: {(hora_fim - hora_ini) * 1000}ms\n")
+print(f"Passadas: {passd}; comparações: {comps}; trocas: {trocas}")
+print(f"Pico de memória: { mem_pico / 1024 / 1024 }MB")

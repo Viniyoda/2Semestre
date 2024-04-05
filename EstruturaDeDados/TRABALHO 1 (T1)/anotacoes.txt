@@ -1,0 +1,153 @@
+bubble sort 10mil:
+tempo 140932.3923587799ms | 141.556 seconds
+memoria 0.000240325927734375MB
+passadas 9942
+comparações 99410058
+trocas 25297553
+
+bubble sort 25mil:
+tempo 890272.839307785ms | 891.455 seconds
+memoria 0.000240325927734375MB
+passadas 24675
+comparações 616850325
+trocas 157485392
+
+bubble sort 50mil:
+tempo 3541332.727909088ms | 3542.578 seconds
+memoria 0.000247955322265625MB
+passadas 49353
+comparações 2467600647
+trocas 625828205
+
+bubble sort 100mil:
+tempo 13912225.165128708ms | 13913.571 seconds
+memoria 0.000255584716796875MB
+passadas 99259
+comparações 9925800741
+trocas 2498177562
+
+-----------------------------------------------------
+
+selection sort 10mil:
+tempo 36915.65489768982ms | 37.041 seconds
+memoria 0.0003509521484375MB
+passadas 9999
+comparações 49995000
+trocas 9990
+
+selection sort 25mil:
+tempo 240073.53472709656ms | 241.245 seconds
+memoria 0.0003509521484375MB
+passadas 24999
+comparações 312487500
+trocas 24984
+
+selection sort 50mil:
+tempo 939012.8448009491ms | 940.232 seconds
+memoria 0.00035858154296875MB
+passadas 49999
+comparações 1249975000
+trocas 49991
+
+selection sort 100mil:
+tempo 3701600.703239441ms | 3701.935 seconds
+memoria 0.00035858154296875MB
+passadas 99999
+comparações 4999950000
+trocas 99982
+
+-----------------------------------------------------
+
+merge sort 10mil:
+tempo 177.14786529541016ms | 0.692 seconds
+memoria 0.24131202697753906MB
+
+merge sort 25mil:
+tempo 499.18127059936523ms | 1.033 seconds
+memoria 0.5984363555908203MB
+
+merge sort 50mil:
+tempo 1074.1651058197021ms | 1.654 seconds
+memoria 1.1953372955322266MB
+
+merge sort 100mil:
+tempo 2364.776134490967ms | 3.067 seconds
+memoria 2.2989368438720703MB
+
+-----------------------------------------------------
+
+merge sort iterativo 10mil:
+tempo 242.36822128295898ms | 0.359 seconds
+memoria 0.08392715454101562MB
+
+merge sort iterativo 25mil:
+tempo 687.8573894500732ms | 0.84 seconds
+memoria 0.22433853149414062MB
+
+merge sort iterativo 50mil:
+tempo 1426.8312454223633ms | 1.65 seconds
+memoria 0.4479408264160156MB
+
+merge sort iterativo 100mil:
+tempo 3401.686668395996ms | 3.741 seconds
+memoria 0.8951454162597656MB
+
+-----------------------------------------------------
+
+quick sort 10mil:
+tempo 226.3946533203125ms | 0.712 seconds
+memoria 0.020399093627929688MB
+passadas 6739
+comparações 159922
+trocas 74927
+
+quick sort 25mil:
+tempo 568.4850215911865ms | 1.086 seconds
+memoria 0.030851364135742188MB
+passadas 16815
+comparações 403744
+trocas 183578
+
+quick sort 50mil:
+tempo 1304.3251037597656ms | 1.877 seconds
+memoria 0.09565544128417969MB
+passadas 33606
+comparações 933897
+trocas 443528
+
+quick sort 100mil:
+tempo 2977.782726287842ms | 3.674 seconds
+memoria 0.09826850891113281MB
+passadas 67259
+comparações 2105979
+trocas 926764
+
+-----------------------------------------------------
+
+quick sort iterativo 10mil:
+tempo 218.48416328430176ms | 0.34 seconds
+memoria 0.07794189453125MB
+passadas 6709
+comparações 159494
+trocas 88396
+
+quick sort iterativo 25mil:
+tempo 578.9833068847656ms | 0.749 seconds
+memoria 0.1924896240234375MB
+passadas 16848
+comparações 402578
+trocas 216674
+
+quick sort iterativo 50mil:
+tempo 1339.5168781280518ms | 1.559 seconds
+memoria 0.3832244873046875MB
+passadas 33596
+comparações 929208
+trocas 520436
+
+quick sort iterativo 100mil:
+tempo 2908.337354660034ms | 3.26 seconds
+memoria 0.7649078369140625MB
+passadas 67185
+comparações 2103882
+trocas 1081151

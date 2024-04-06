@@ -30,14 +30,20 @@ createApp({
                 defender = true;
             }
         },
-        pocao(isHeroi) {
+        usarPocao(isHeroi) {
             if (isHeroi) {
                 console.log("Herói usou poção");
-                this.acaoVilao();
                 this.heroi.vida += 15;
+                if (this.heroi.vida >= 100) {
+                    this.heroi.vida = 100;
+                }
+                this.acaoVilao();
             } else {
                 console.log("Vilão usou poção");
-                this.heroi.vida += 25;
+                this.vilao.vida += 25;
+                if (this.vilao.vida >= 100) {
+                    this.vilao.vida = 100;
+                }
                 
             }
         },

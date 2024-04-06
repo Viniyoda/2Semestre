@@ -8,26 +8,47 @@ createApp({
         }
     },
     setup() {
-
+        const defender = false;
     },
     methods: {
         atacar(isHeroi) {
             if (isHeroi) {
                 console.log("Herói atacou");
                 this.acaoVilao();
+                this.vilao.vida -= 10;
             } else {
                 console.log("Vilão atacou");
-                //this.acaoVilao();
+                this.heroi.vida -= 20;
             }
         },
-        defender() {
-
+        defender(isHeroi) {
+            if (isHeroi) {
+                console.log("Herói defendeu");
+                defender = true;
+            } else {
+                console.log("Vilão defendeu");
+                defender = true;
+            }
         },
-        pocao() {
-
+        pocao(isHeroi) {
+            if (isHeroi) {
+                console.log("Herói usou poção");
+                this.acaoVilao();
+                this.heroi.vida += 15;
+            } else {
+                console.log("Vilão usou poção");
+                this.heroi.vida += 25;
+                
+            }
         },
-        correr() {
+        correr(isHeroi) {
+            if (isHeroi) {
+                console.log("");
 
+            } else {
+                console.log("");
+
+            }
         },
         acaoVilao() {
             const acoes = [

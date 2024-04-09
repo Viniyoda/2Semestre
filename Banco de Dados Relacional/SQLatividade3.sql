@@ -71,7 +71,7 @@ CALL valor_medio();
 DELIMITER //
 CREATE PROCEDURE prod_das_marcas (IN nome_marca varchar(50))
 BEGIN
-	SELECT P.*
+	SELECT P.*, M.nome_marca
     FROM produtos P
     JOIN marcas M ON P.marca_id = M.marca_id
     WHERE M.nome_marca = nome_marca;
@@ -82,14 +82,21 @@ CALL prod_das_marcas ('Lenovo');
 
 #Crie uma SP que receba dois valores (um menor e outro maior)
 #como parâmetro e retorne todos os produtos com a quantidade dentro do intervalo dos dois valores fornecidos como parâmetros.
+DELIMITER //
+CREATE PROCEDURE 
+BEGIN
+
+END //
+DELIMITER ;
+
 
 #Crie uma SP onde após um novo registro na tabela produto_fornecedor for criado,
 #ele exibe o nome do produto e o nome do fornecedor que acabou de ser registrado.
 DELIMITER //
-CREATE PROCEDURE exibir_novo_registro()
+CREATE PROCEDURE exibir_novo_registro(IN produto_nome VARCHAR(50), fornecedor_nome VARCHAR(50))
 BEGIN
-	DECLARE produto_nome VARCHAR(50);
-    DECLARE fornecedor_nome VARCHAR(50);
+	#DECLARE produto_nome VARCHAR(50);
+    #DECLARE fornecedor_nome VARCHAR(50);
     
     SELECT P.nome_prod, F.nome_forn
     INTO produto_nome, fornecedor_nome
@@ -107,7 +114,8 @@ DELIMITER //
 CREATE PROCEDURE auto_forn_email(IN nome_fornecedor varchar(50))
 BEGIN
 	DECLARE email_fornecedor VARCHAR(100);
-    SET email_fornecedor = CONCAT(nome_fornecedor, '@', REPLACE(nome_fornecedor, ' ', ''), '.com.br');
+    SET email_fornecedor = CONCAT
+    (REPLACE(nome_fornecedor, ' ', ''), '@', REPLACE(nome_fornecedor, ' ', ''), '.com.br');
 	INSERT INTO fornecedores (nome_forn, email) VALUES (nome_fornecedor, email_fornecedor);
 END//
 DELIMITER ;

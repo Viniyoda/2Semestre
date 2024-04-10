@@ -1,6 +1,7 @@
 use empresa;
 SELECT * FROM produtos;
 SELECT * FROM marcas;
+SELECT * FROM produto_fornecedor;
 
 #Crie uma view que mostra todos os produtos e seus respectivos fornecedores e marcas.
 CREATE VIEW prod_forn_marc AS 
@@ -12,9 +13,9 @@ CREATE VIEW prod_forn_marc AS
     M.nome_marca, M.origem,
     F.nome_forn, F.email
     FROM produtos P 
-    INNER JOIN marcas M ON P.marca_id = M.marca_id
-    INNER JOIN produto_fornecedor PF ON P.prod_id = PF.prod_id
-    INNER JOIN fornecedores F ON PF.forn_id = F.forn_id;
+    JOIN marcas M ON P.marca_id = M.marca_id
+    JOIN produto_fornecedor PF ON P.prod_id = PF.prod_id
+    JOIN fornecedores F ON PF.forn_id = F.forn_id;
     
 SELECT * FROM prod_forn_marc;
 
@@ -83,20 +84,22 @@ CALL prod_das_marcas ('Lenovo');
 #Crie uma SP que receba dois valores (um menor e outro maior)
 #como parâmetro e retorne todos os produtos com a quantidade dentro do intervalo dos dois valores fornecidos como parâmetros.
 DELIMITER //
-CREATE PROCEDURE 
+CREATE PROCEDURE prod_por_qtd (IN qtd_min INT,IN qtd_max INT)
 BEGIN
-
+	SELECT * FROM produtos
+    WHERE qtd_estoque BETWEEN qtd_min AND qtd_max;
 END //
 DELIMITER ;
 
+CALL prod_por_qtd(20,34);
 
 #Crie uma SP onde após um novo registro na tabela produto_fornecedor for criado,
 #ele exibe o nome do produto e o nome do fornecedor que acabou de ser registrado.
 DELIMITER //
-CREATE PROCEDURE exibir_novo_registro(IN produto_nome VARCHAR(50), fornecedor_nome VARCHAR(50))
+CREATE PROCEDURE exibir_novo_registro()
 BEGIN
-	#DECLARE produto_nome VARCHAR(50);
-    #DECLARE fornecedor_nome VARCHAR(50);
+	DECLARE produto_nome VARCHAR(50);
+    DECLARE fornecedor_nome VARCHAR(50);
     
     SELECT P.nome_prod, F.nome_forn
     INTO produto_nome, fornecedor_nome
@@ -104,7 +107,8 @@ BEGIN
     JOIN produto_fornecedor PF ON P.prod_id = PF.prod_id
     JOIN fornecedores F ON PF.forn_id = F.forn_id;
 	
-    SELECT CONCAT('Novo registro: Produto ', produto_nome, ' - Fornecedor ', fornecedor_nome) AS 'Novo Registro';
+    SELECT CONCAT('Novo registro: Produto ', produto_nome, ' - Fornecedor ', fornecedor_nome) AS 'Novo Registro'
+    LIMIT 1;
 END//
 DELIMITER ;
 

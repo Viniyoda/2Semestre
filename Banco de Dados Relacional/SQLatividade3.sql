@@ -105,12 +105,15 @@ BEGIN
     INTO produto_nome, fornecedor_nome
     FROM produtos P
     JOIN produto_fornecedor PF ON P.prod_id = PF.prod_id
-    JOIN fornecedores F ON PF.forn_id = F.forn_id;
+    JOIN fornecedores F ON PF.forn_id = F.forn_id
+    ORDER BY PF.prod_id DESC, PF.forn_id DESC LIMIT 1;
 	
-    SELECT CONCAT('Novo registro: Produto ', produto_nome, ' - Fornecedor ', fornecedor_nome) AS 'Novo Registro'
-    LIMIT 1;
+    SELECT CONCAT('Novo registro: Produto || ', produto_nome, 
+    ' || Fornecedor || ', fornecedor_nome) AS 'Novo Registro';
 END//
 DELIMITER ;
+
+CALL exibir_novo_registro();
 
 #Crie uma SP que receba como parâmetro o nome de um fornecedor e insira automaticamente o nome
 #do fornecedor e um e-mail no formato nome_fornecedor@nome_fornecedor.com.br na tabela fornecedores

@@ -4,7 +4,7 @@ body, html{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: whitesmoke;
+    background-color: rgb(52, 52, 52);
 }
 
 #app {
@@ -14,8 +14,8 @@ body, html{
 }
 
 .personagem {
-    background-color: aqua;
-    border: 2px solid #7a71ff;
+    background-color: rgb(93, 93, 93);
+    border: 2px solid #d6d6d6;
     border-radius: 5px;
     margin-bottom: 8px;
     padding: 10px;
@@ -32,8 +32,8 @@ button {
     padding: 8px;
     border: none;
     border-radius: 5px;
-    background-color: #cf2fff;
-    color: whitesmoke;
+    background-color: #2a2a2a;
+    color: rgb(255, 255, 255);
     cursor: pointer;
     transition: backgroud-color 0.3s, transform 0.2s;
 }
@@ -49,7 +49,7 @@ button:active {
 
 .barra-vida {
     height: 32px;
-    background-color: #2cff2c;
+    background-color: #2ad72a;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -59,6 +59,10 @@ button:active {
 }
 
 .sprite {
-    height: 80px;
-    background-color: #ddd;
+    height: 130px;
+    background-color: none;
+}
+
+.pokemon {
+    max-width: 80%;
 }

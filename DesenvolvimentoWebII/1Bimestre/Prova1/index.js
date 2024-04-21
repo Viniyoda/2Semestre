@@ -4,7 +4,9 @@ createApp({
     data() {
         return {
             heroi: {vida: 100, pocao: 3},
-            vilao: {vida: 100, pocao: 3}
+            vilao: {vida: 100, pocao: 3},
+            consoleH: "",
+            consoleV: ""
         }
     },
     setup() {
@@ -20,8 +22,8 @@ createApp({
                     this.vilao.vida -= 10;
                 }
                 else {
-                    console.log("Vilão defendeu o ataque");
                 }
+                this.consoleH = "Herói atacou"
             } 
             else {
                 console.log("Vilão atacou");
@@ -29,35 +31,34 @@ createApp({
                     this.heroi.vida -= 20;
                 }
                 else {
-                    console.log("Herói defendeu o ataque");
                 }
+                this.consoleV = "Vilão atacou"
             }
             this.defenderReset();
         },
         defender(isHeroi) {
             if (isHeroi) {
-                console.log("Herói defendeu");
                 defenderH = true;
+                this.consoleH = "Herói usou defesa";
                 this.acaoVilao();
             }
             else {
-                console.log("Vilão defendeu");
+                this.consoleV = "Vilão usou defesa";
                 defenderV = true;
             }
         },
         usarPocao(isHeroi) {
             if (isHeroi) {
-                console.log("Herói usou poção");
                 if (this.heroi.pocao > 0) {
                     this.heroi.pocao -= 1;
-                    console.log("Poções restantes Herói: ", this.heroi.pocao);
                     this.heroi.vida += 15;
                     if (this.heroi.vida >= 100) {
                         this.heroi.vida = 100;
                     }
+                    this.consoleH = "Herói usou poção | " + this.heroi.pocao;
                 }
                 else {
-                    console.log("Herói não tem poções restates")
+                    this.consoleH = "Suas poções acabaram"
                 }
                 this.acaoVilao();
             }
@@ -65,14 +66,14 @@ createApp({
                 console.log("Vilão usou poção");
                 if (this.vilao.pocao > 0) {
                     this.vilao.pocao -= 1;
-                    console.log("Poções restantes Vilão: ", this.vilao.pocao)
                     this.vilao.vida += 15;
                     if (this.vilao.vida >= 100) {
                         this.vilao.vida = 100;
                     }
+                    this.consoleV = "Vilão usou poção | " + this.vilao.pocao;
                 }
                 else {
-                    console.log("Vilão não tem poções restates")
+                    this.consoleV = "Poções do vilão acabaram"
                 }
             }
             this.defenderReset();
@@ -81,18 +82,16 @@ createApp({
             let numCerto = Math.floor(Math.random() * 7);
             let numAtaque = Math.floor(Math.random() * 7);
             if (isHeroi) {
-                console.log("Herói usou especial");
                 this.acaoVilao();
                 if (numAtaque == numCerto) {
-                    console.log("Herói acertou o especial");
+                    this.consoleH = "Herói acertou o especial"
                     this.vilao.vida -= 20;
-                }
+                } else { this.consoleH = "Herói errou o especial" }
             } else {
-                console.log("Vilão usou especial");
                 if (numAtaque == numCerto) {
-                    console.log("Vilão acertou o especial");
+                    this.consoleV = "Vilão acertou o especial"
                     this.heroi.vida -= 25;
-                }
+                } else { this.consoleV = "Vilão errou o especial" }
             }
             this.defenderReset();
         },

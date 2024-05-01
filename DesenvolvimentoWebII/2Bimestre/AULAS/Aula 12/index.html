@@ -2,21 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aula 12 - Componentes</title>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+    rel="stylesheet">
 </head>
 <body>
-    <div id="app">
-        <button @click="alterarComponentes">Alterar componentes</button>
+<div id="app">
+    <button @click="alterarComponentes">Alterar Estrutura</button>
 
-        <transition name="fade" mode="out-in">
-            <component :is="componenteAtual"></component>
-        </transition>
-    </div>
-    
+    <transition name="fade" mode="out-in">
+        <component :is="componenteAtual"></component>
+    </transition>
+
+    <button>Confirmar</button>
+
+</div>
 </body>
 </html>
-
 <script src="index.js"></script>

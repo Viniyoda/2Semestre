@@ -2,34 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Prova - Herói e Vilão</title>
+    <title>Tela de Login</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
 <body>
-    <div id="app">
-        <div class="personagem" >
-            <div class="barra-vida" :style="{width: heroi.vida + '%'}">{{ heroi.vida }}</div>
-            <div class="sprite"><img src="./blastoise.png" class="pokemon"></div>
-            <h1>Blastoise</h1>
-            <div class="acoes">
-                <button @click="atacar(true)">Atacar</button>
-                <button @click="defender(true)">Defender</button>
-                <button @click="usarPocao(true)">Usar Poção</button>
-                <button @click="especial(true)">Especial</button>
+    <div class="container">
+        <form id="loginForm">
+            <h2>Login</h2>
+            <div class="input-group">
+                <label for="username">Usuário:</label>
+                <input type="text" id="username" name="username" required>
             </div>
-        </div>
-        <div class="consolebox">
-            <p>Herói: {{ consoleH }}</p>
-            <p>Vilão: {{ consoleV }}</p>
-        </div>
-        <div class="personagem" >
-            <div class="barra-vida" :style="{width: vilao.vida + '%'}">{{ vilao.vida }}</div>
-            <div class="sprite"><img src="./charizard.png" class="pokemon"></div>
-            <h1>Charizard</h1>
+            <div class="input-group">
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Entrar</button>
+            <p class="error-message" id="error-message"></p>
+        </form>
+        <div>
+            <p>Ainda não tem uma conta? <a href="./cadastro.html" id="signupBtn">Cadastre-se aqui</a></p>
         </div>
     </div>
 </body>
 </html>
 
-<script src="index.js"></script>
+<script src="script.js"></script>

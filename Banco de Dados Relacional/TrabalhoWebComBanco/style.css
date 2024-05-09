@@ -82,3 +82,47 @@ button:active {
 .pokemon {
     max-width: 80%;
 }
+
+.container {
+    width: 300px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.success-message {
+    color: #00a025;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+#signupLink {
+    text-align: center;
+    margin-top: 15px;
+}

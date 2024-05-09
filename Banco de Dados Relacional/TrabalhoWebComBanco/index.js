@@ -1,4 +1,5 @@
-const { createApp } = Vue
+const { createApp } = Vue;
+const API_URL = 'http://localhost:3000';
 
 createApp({
     data() {
@@ -20,6 +21,7 @@ createApp({
                 this.acaoVilao();
                 if (defenderV == false) {
                     this.vilao.vida -= 10;
+                    this.atualizarVidaNoBancoDeDados(this.heroi.vida, this.vilao.vida);
                 }
                 else {
                 }
@@ -29,6 +31,7 @@ createApp({
                 console.log("Vilão atacou");
                 if (defenderH == false) {
                     this.heroi.vida -= 20;
+                    this.atualizarVidaNoBancoDeDados(this.heroi.vida, this.vilao.vida);
                 }
                 else {
                 }
@@ -55,6 +58,7 @@ createApp({
                     if (this.heroi.vida >= 100) {
                         this.heroi.vida = 100;
                     }
+                    this.atualizarVidaNoBancoDeDados(this.heroi.vida, this.vilao.vida);
                     this.consoleH = "Herói usou poção | " + this.heroi.pocao;
                 }
                 else {
@@ -70,6 +74,7 @@ createApp({
                     if (this.vilao.vida >= 100) {
                         this.vilao.vida = 100;
                     }
+                    this.atualizarVidaNoBancoDeDados(this.heroi.vida, this.vilao.vida);
                     this.consoleV = "Vilão usou poção | " + this.vilao.pocao;
                 }
                 else {
@@ -86,11 +91,13 @@ createApp({
                 if (numAtaque == numCerto) {
                     this.consoleH = "Herói acertou o especial"
                     this.vilao.vida -= 20;
+                    this.atualizarVidaNoBancoDeDados(this.heroi.vida, this.vilao.vida);
                 } else { this.consoleH = "Herói errou o especial" }
             } else {
                 if (numAtaque == numCerto) {
                     this.consoleV = "Vilão acertou o especial"
                     this.heroi.vida -= 25;
+                    this.atualizarVidaNoBancoDeDados(this.heroi.vida, this.vilao.vida);
                 } else { this.consoleV = "Vilão errou o especial" }
             }
             this.defenderReset();

@@ -1,15 +1,15 @@
 const express = require('express');
 const path = require('path');
-const sql = require('mssql');
+const sql = require('mysql');
 
 const app = express();
-const PORT = 3000;
+const PORT = 27906;
 
 const config = {
-    user: 'joguinhoadmin',
-    password: 'Joguinho1',
-    server: 'joguinhoserver.database.windows.net',
-    database: '',
+    user: 'avnadmin',
+    password: 'AVNS_KPxvTUUtahG1o6-uTlV',
+    server: 'mysql-joguinho-viniyoda360-d36d.f.aivencloud.com',
+    database: 'joguinhodb',
     options: {
         encrypt: true
     }

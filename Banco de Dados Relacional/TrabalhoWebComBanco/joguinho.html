@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Prova - Herói e Vilão</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="./vue.js"></script>
 </head>
 <body>
     <div id="app">
@@ -22,6 +22,7 @@
         <div class="consolebox">
             <p>Herói: {{ consoleH }}</p>
             <p>Vilão: {{ consoleV }}</p>
+            <button onclick="window.location.href = 'dashboard.html'">Dashboard</button>
         </div>
         <div class="personagem" >
             <div class="barra-vida" :style="{width: vilao.vida + '%'}">{{ vilao.vida }}</div>

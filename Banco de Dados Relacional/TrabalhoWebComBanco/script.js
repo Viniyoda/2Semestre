@@ -7,6 +7,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     if (username === 'usuario' && password === 'senha') {
         // Redirecionar para a tela do jogo (simulado aqui com um alert)
         alert('Login bem-sucedido! Redirecionando para a tela do jogo...');
+        window.location.href = 'joguinho.html'
     } else {
         document.getElementById('error-message').textContent = 'Usuário ou senha incorretos.';
     }

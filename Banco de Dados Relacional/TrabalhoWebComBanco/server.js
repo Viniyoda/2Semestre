@@ -1,3 +1,4 @@
+
 const express = require('express');
 const path = require('path');
 const sql = require('mysql');
@@ -14,6 +15,13 @@ const config = {
         encrypt: true
     }
 };
+
+pool.query("select * from  usuarios", (err, result, fields)=>{
+    if(err){
+        return console.log(err);
+    }
+    return console.log(result);
+})
 
 app.use(express.json());
 

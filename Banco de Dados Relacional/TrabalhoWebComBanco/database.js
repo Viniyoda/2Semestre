@@ -19,7 +19,6 @@ connection.connect((err) => {
     console.log('Conexão bem-sucedida ao banco de dados.');
 });
 
-
 connection.query("SELECT * FROM usuarios", function (err, result, fields) {
     if (err) {
         console.log(err);

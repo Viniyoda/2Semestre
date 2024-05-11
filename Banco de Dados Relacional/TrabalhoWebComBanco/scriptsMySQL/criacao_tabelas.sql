@@ -7,6 +7,7 @@ CREATE TABLE usuarios (
     nome_usuario			varchar(100),
     senha_usuario			varchar(100)
 );
+SELECT * FROM usuarios;
 
 CREATE TABLE jogo (
 	jogo_id					INT AUTO_INCREMENT PRIMARY KEY,
@@ -15,6 +16,7 @@ CREATE TABLE jogo (
     vida_vilao				DOUBLE,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(usuario_id)
 );
+SELECT * FROM jogo;
 
 DELIMITER //
 CREATE TRIGGER after_usuarios_insert
@@ -25,3 +27,5 @@ BEGIN
     VALUES (NEW.usuario_id, 100, 100);
 END//
 DELIMITER ;
+
+ALTER USER 'avnadmin'@'%' IDENTIFIED WITH mysql_native_password BY 'AVNS_KPxvTUUtahG1o6-uTlV';

@@ -1,73 +1,114 @@
-const mysql = require('mysql');
+/*comandos npm
+npm init
+npm instal nodemon -g 
+npm install -- save express
+npm install express-session
+npm install --save body-parser
+npm install --save mysql
+npm install ejs -save
+*/
+
+
+//require do express e do session
 const express = require('express');
-const session = require('express-session');
+const session = require("express-session");
 const path = require('path');
-const port = 27906;
-
-// Configurações de conexão com o banco de dados
-const connection = mysql.createConnection({
-    host: 'mysql-joguinho-viniyoda360-d36d.f.aivencloud.com',
-    port: '27906',
-    user: 'avnadmin',
-    password: 'AVNS_KPxvTUUtahG1o6-uTlV',
-    database: 'joguinhodb'
-});
-
 const app = express();
 
-app.use(session({
-	secret: 'secret',
-	resave: true,
-	saveUninitialized: true
-}));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'static')));
 
-app.get('/', function(request, response) {
-	// Render login template
-	response.sendFile(path.join(__dirname + '/index.html'));
+//require do bodyparser responsável por capturar valores do form
+const bodyParser = require("body-parser");
+
+
+//require do mysql
+const mysql = require("mysql"); 
+const { resolveSoa } = require('dns');
+
+
+//criando a sessão
+app.use(session({secret: "ssshhhhh"}));
+
+
+//definindo pasta pública para acesso
+app.use(express.static('public'))
+
+
+//config engines
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '/public'));
+
+
+//config bodyparser para leitura de post
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+
+
+function conectiondb(){
+    // Configurações de conexão com o banco de dados
+    const connection = mysql.createConnection({
+        host: 'mysql-joguinho-viniyoda360-d36d.f.aivencloud.com',
+        port: '27906',
+        user: 'avnadmin',
+        password: 'AVNS_KPxvTUUtahG1o6-uTlV',
+        database: 'joguinhodb'
+    });
+    connection.connect((err) => {
+        if (err) {
+            console.error('Erro ao conectar ao banco de dados:', err.stack);
+            return;
+        }
+        console.log('Conexão bem-sucedida ao banco de dados.');
+    });
+
+    return connection;
+}
+
+
+
+
+//rota padrao
+app.get('/', (req, res) => {
+    var message = ' ';
+    req.session.destroy();
+    res.render('views/cadastro', { message: message });
 });
 
 
-app.post('/joguinho.html', function(request, response) {
-	// Capture the input fields
-	let username = request.body.username;
-	let password = request.body.password;
-	// Ensure the input fields exists and are not empty
-	if (username && password) {
-		// Execute SQL query that'll select the account from the database based on the specified username and password
-		connection.query('SELECT * FROM usuarios WHERE nome_usuario = ? AND senha_usuario = ?', [username, password], function(error, results, fields) {
-			// If there is an issue with the query, output the error
-			if (error) throw error;
-			// If the account exists
-			if (results.length > 0) {
-				// Authenticate the user
-				request.session.loggedin = true;
-				request.session.username = username;
-				// Redirect to home page
-				window.location.href ='/joguinho.html';
-			} else {
-				response.send('Incorrect Username and/or Password!');
-			}			
-			response.end();
-		});
-	} else {
-		response.send('Please enter Username and Password!');
-		response.end();
-	}
+//rota para login
+app.get("/views/index", function(req, res){
+    var message = ' ';
+    res.render('views/index', {message:message});
 });
 
-app.get('/joguinho.html', function(request, response) {
-	// If the user is loggedin
-	if (request.session.loggedin) {
-		// Output username
-		response.send('Welcome back, ' + request.session.username + '!');
-	} else {
-		// Not logged in
-		response.send('Please login to view this page!');
-	}
-	response.end();
+
+//rota para cadastro
+app.get('/views/cadastro', (req, res)=>{
+    res.redirect('../');
+    //res.render('views/cadastro', {message:message});
 });
 
-app.listen(27906);
+
+//método post do login
+app.post('/log', function (req, res){
+    //pega os valores digitados pelo usuário
+    var username = req.body.username;
+    var password = req.body.password;
+
+    //conexão com banco de dados
+    var con = conectiondb();
+
+    //query de execução
+    var query = 'SELECT * FROM usuarios WHERE nome_usuario = ? AND password = ?';
+    
+    //execução da query
+    con.query(query, [username, password], function (err, results){
+        if (results.length > 0){
+            req.session.user = username; //seção de identificação            
+            console.log("Login feito com sucesso!");
+            res.render('views/joguinho', {message:results});
+        }else{
+            var message = 'Login incorreto!';
+            res.render('views/index', { message: message });
+        }
+    });
+});

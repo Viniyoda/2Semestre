@@ -1,46 +1,47 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const mysql = require('mysql');
 
 
 const app = express();
+const PORT = 3000;
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-const PORT = 3000;
-/*
-const mysql = require('mysql');
 
 // Configurações de conexão com o banco de dados
 const connection = mysql.createConnection({
-  host: 'mysql-joguinho-viniyoda360-d36d.f.aivencloud.com',
-  port: '27906',
-  user: 'avnadmin',
-  password: 'AVNS_KPxvTUUtahG1o6-uTlV',
-  database: 'joguinhodb',
-  connectTimeout: 100000 // 10 segundos
-});
-// Conectar ao banco de dados
-connection.connect((err) => {
-    if (err) {
-      console.error('Erro ao conectar ao banco de dados:', err.stack);
-      return;
-    }
-    console.log('Conexão bem-sucedida ao banco de dados.');
-});
-*/
+    host: 'mysql-joguinho-viniyoda360-d36d.f.aivencloud.com',
+    port: '27906',
+    user: 'avnadmin',
+    password: 'AVNS_KPxvTUUtahG1o6-uTlV',
+    database: 'joguinhodb',
+    connectTimeout: 100000 // 10 segundos
+  });
+  // Conectar ao banco de dados
+  connection.connect((err) => {
+      if (err) {
+        console.error('Erro ao conectar ao banco de dados:', err.stack);
+        return;
+      }
+      console.log('Conexão bem-sucedida ao banco de dados.');
+  });
 
 app.use(express.json());
 
 // Servir arquivos estáticos (como index.html)
 app.use(express.static(path.join(__dirname)));
 
+
+// Rota de login
 app.post('/login', (req, res) => {
-    console.log("Teste", req)
+    console.log("Teste", req.body)
     const { username, password } = req.body;
-    const queryLogin = "SELECT * FROM usuarios WHERE nome_usuario = ? AND password = ?";
+    const queryLogin = `SELECT * FROM usuarios WHERE nome_usuario = '${username}' AND senha_usuario = '${password}'`;
     
-    connection.query(queryLogin, [username, password], function (err, results) {
+    connection.query(queryLogin,function (err, results) {
         if (err) {
             console.error('Erro ao executar consulta:', err);
             res.status(500).send('Erro interno ao realizar o login');
@@ -49,13 +50,52 @@ app.post('/login', (req, res) => {
 
         if (results.length > 0) {
             // Redirecionar para a tela do jogo
-            res.status(200).send('Login bem-sucedido! Redirecionando para a tela do jogo...');
-            window.location.href = "joguinho.html";
+            res.sendFile(path.join(__dirname, '/pages/joguinho.html'));
         } else {
             res.status(401).send('Usuário ou senha incorretos.');
         }
     });
 });
+
+
+// Rota de cadastro
+app.post('/cadastro', (req, res) => {
+    console.log("Teste", req.body)
+    const { newUsername, newPassword } = req.body;
+    const queryIfEquals = `SELECT * FROM usuarios WHERE nome_usuario = '${newUsername}' AND senha_usuario = '${newPassword}'`
+    const queryCadastro = `INSERT INTO usuarios (nome_usuario, senha_usuario) VALUES ('${newUsername}', '${newPassword}')`;
+    
+    connection.query(queryIfEquals,function (err, results) {
+        if (err) {
+            console.error('Erro ao executar a igualdade:', err);
+            res.status(500).send('Erro interno ao realizar a igualdade');
+            return;
+        }
+        
+        if (results.length > 0) {
+            // Alerta de igualdade
+            res.write('<script>alert("Cadastro ja realizado, tente outro usuario e senha");</script>');
+            // Redirecionar para a tela de cadastro novamente
+            res.write('<script>setTimeout(function() { window.location.href = "/pages/cadastro.html"; }, 400);</script>');
+            res.end();
+        } else{
+            connection.query(queryCadastro,function (err, results) {
+                if (err) {
+                    console.error('Erro ao executar a insercao:', err);
+                    res.status(500).send('Erro interno ao realizar a insercaoo');
+                    return;
+                } else {
+                    // Alerta de sucesso
+                    res.write('<script>alert("Cadastro realizado com sucesso!");</script>');
+                    // Redirecionar para a tela de login
+                    res.write('<script>setTimeout(function() { window.location.href = "/index.html"; }, 400);</script>');
+                    res.end();
+                }
+            });
+        }
+    });
+});
+
 
 // Rota para atualizar a vida do herói e do vilão
 app.post('/atualizarVida', async (req, res) => {
@@ -80,6 +120,7 @@ app.post('/atualizarVida', async (req, res) => {
     }
 });
 
+
 // Rota para fornecer os dados do herói e do vilão
 app.get('/characters', async (req, res) => {
     try {
@@ -100,6 +141,7 @@ app.get('/characters', async (req, res) => {
         res.status(500).json({ error: 'Erro ao buscar dados do herói e do vilão.' });
     }
 });
+
 
 // Rota para servir o arquivo HTML principal
 app.get('/', (req, res) => {

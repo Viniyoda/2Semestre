@@ -35,6 +35,8 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
 
+
+let user = '';
 // Rota de login
 app.post('/login', (req, res) => {
     console.log("Teste", req.body)
@@ -50,6 +52,7 @@ app.post('/login', (req, res) => {
 
         if (results.length > 0) {
             // Redirecionar para a tela do jogo
+            user = username;
             res.sendFile(path.join(__dirname, '/pages/joguinho.html'));
         } else {
             res.status(401).send('Usuário ou senha incorretos.');
@@ -97,15 +100,14 @@ app.post('/cadastro', (req, res) => {
 });
 
 
+
+
 // Rota para atualizar a vida do herói e do vilão
 app.post('/atualizarVida', async (req, res) => {
     const { vidaHeroi, vidaVilao } = req.body;
-
     try {
-        await sql.connect(config);
-        const request = new sql.Request();
         await request.query(`
-      MERGE INTO Personagens AS target
+      MERGE INTO jogo AS target
       USING (VALUES ('heroi', ${vidaHeroi}), ('vilao', ${vidaVilao})) AS source (Nome, Vida)
       ON target.Nome = source.Nome
       WHEN MATCHED THEN
@@ -124,18 +126,31 @@ app.post('/atualizarVida', async (req, res) => {
 // Rota para fornecer os dados do herói e do vilão
 app.get('/characters', async (req, res) => {
     try {
-        await sql.connect(config);
-        const request = new sql.Request();
+        console.log("Teste se recebeu o username sendo: ", user);
+        const heroQuery = `SELECT J.vida_heroi FROM jogo J INNER JOIN usuarios U ON J.usuario_id = U.usuario_id WHERE U.nome_usuario = '${user}'`;
+        const villainQuery = `SELECT J.vida_vilao FROM jogo J INNER JOIN usuarios U ON J.usuario_id = U.usuario_id WHERE U.nome_usuario = '${user}'`;
 
         // Consulta para obter os dados do herói
-        const heroResult = await request.query("SELECT * FROM Personagens WHERE Nome = 'heroi'");
-        const heroi = heroResult.recordset[0];
+        connection.query(heroQuery, function (err, heroResults) {
+            if (err) {
+                console.error('Erro ao buscar dados do herói:', err);
+                return res.status(500).json({ error: 'Erro ao buscar dados do herói.' });
+            }
+            const heroi = heroResults[0].vida_heroi;
+            console.log("ResultQueryHeroi: ", heroResults);
 
-        // Consulta para obter os dados do vilão
-        const villainResult = await request.query("SELECT * FROM Personagens WHERE Nome = 'vilao'");
-        const vilao = villainResult.recordset[0];
+            // Consulta para obter os dados do vilão
+            connection.query(villainQuery, function (err, villainResults) {
+                if (err) {
+                    console.error('Erro ao buscar dados do vilão:', err);
+                    return res.status(500).json({ error: 'Erro ao buscar dados do vilão.' });
+                }
+                const vilao = villainResults[0].vida_vilao;
+                console.log("ResultQueryVilao: ", villainResults);
 
-        res.json({ heroi, vilao });
+                res.json({ heroi, vilao });
+            })
+        })
     } catch (error) {
         console.error('Erro ao buscar dados do herói e do vilão:', error);
         res.status(500).json({ error: 'Erro ao buscar dados do herói e do vilão.' });

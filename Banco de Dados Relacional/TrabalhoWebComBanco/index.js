@@ -39,6 +39,23 @@ createApp({
             }
             this.defenderReset();
         },
+        async atualizarVidaNoBD(vidaHeroi, vidaVilao) {
+            try {
+                const response = await fetch(`${API_URL}/atualizarVida`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ vidaHeroi, vidaVilao })
+                });
+                if (!response.ok) {
+                    throw new Error('Erro ao atualizar a vida no banco de dados.');
+                }
+                console.log('Vida do herói e do vilão atualizada com sucesso.');
+            } catch (error) {
+                console.error('Erro ao atualizar a vida no banco de dados:', error);
+            }
+        },
         defender(isHeroi) {
             if (isHeroi) {
                 defenderH = true;

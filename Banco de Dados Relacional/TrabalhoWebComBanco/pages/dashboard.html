@@ -40,8 +40,9 @@
                     try {
                         const response = await fetch('http://localhost:3000/characters');
                         const data = await response.json();
-                        this.heroiVida = data.heroi.vida_heroi;
-                        this.vilaoVida = data.vilao.vida_vilao;
+                        console.log(data);
+                        this.heroiVida = data.heroResults;
+                        this.vilaoVida = data.villainResults;
                     } catch (error) {
                         console.error('Erro ao buscar dados dos personagens:', error);
                     }

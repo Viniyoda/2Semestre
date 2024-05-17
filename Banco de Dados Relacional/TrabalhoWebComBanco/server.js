@@ -2,9 +2,11 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
+const cors = require('cors');
 
 
 const app = express();
+app.use(cors());
 const PORT = 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -136,7 +138,6 @@ app.get('/characters', async (req, res) => {
                 console.error('Erro ao buscar dados do herói:', err);
                 return res.status(500).json({ error: 'Erro ao buscar dados do herói.' });
             }
-            const heroi = heroResults[0].vida_heroi;
             console.log("ResultQueryHeroi: ", heroResults);
 
             // Consulta para obter os dados do vilão
@@ -145,10 +146,9 @@ app.get('/characters', async (req, res) => {
                     console.error('Erro ao buscar dados do vilão:', err);
                     return res.status(500).json({ error: 'Erro ao buscar dados do vilão.' });
                 }
-                const vilao = villainResults[0].vida_vilao;
                 console.log("ResultQueryVilao: ", villainResults);
 
-                res.json({ heroi, vilao });
+                res.json({ heroResults, villainResults });
             })
         })
     } catch (error) {

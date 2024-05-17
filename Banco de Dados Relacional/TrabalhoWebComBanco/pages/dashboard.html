@@ -41,8 +41,10 @@
                         const response = await fetch('http://localhost:3000/characters');
                         const data = await response.json();
                         console.log(data);
-                        this.heroiVida = data.heroResults;
-                        this.vilaoVida = data.villainResults;
+                        this.heroiVida = data.heroi;
+                        this.vilaoVida = data.vilao;
+                        this.consoleH = data.heroiC;
+                        this.consoleV = data.vilaoC;
                     } catch (error) {
                         console.error('Erro ao buscar dados dos personagens:', error);
                     }

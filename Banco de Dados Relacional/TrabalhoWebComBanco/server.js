@@ -106,7 +106,7 @@ app.post('/cadastro', (req, res) => {
 
 // Rota para atualizar a vida do herói e do vilão
 app.post('/atualizarVida', async (req, res) => {
-    const { vidaHeroi, vidaVilao } = req.body;
+    const { vidaHeroi, vidaVilao, } = req.body;
     try {
         await request.query(`
       MERGE INTO jogo AS target
@@ -130,7 +130,10 @@ app.get('/characters', async (req, res) => {
     try {
         console.log("Teste se recebeu o username sendo: ", user);
         const heroQuery = `SELECT J.vida_heroi FROM jogo J INNER JOIN usuarios U ON J.usuario_id = U.usuario_id WHERE U.nome_usuario = '${user}'`;
+        const heroConsoleQuery = `SELECT J.acao_heroi FROM jogo J INNER JOIN usuarios U ON J.usuario_id = U.usuario_id WHERE U.nome_usuario = '${user}'`
         const villainQuery = `SELECT J.vida_vilao FROM jogo J INNER JOIN usuarios U ON J.usuario_id = U.usuario_id WHERE U.nome_usuario = '${user}'`;
+        const villainConsoleQuery = `SELECT J.acao_vilao FROM jogo J INNER JOIN usuarios U ON J.usuario_id = U.usuario_id WHERE U.nome_usuario = '${user}'`
+
 
         // Consulta para obter os dados do herói
         connection.query(heroQuery, function (err, heroResults) {
@@ -138,6 +141,7 @@ app.get('/characters', async (req, res) => {
                 console.error('Erro ao buscar dados do herói:', err);
                 return res.status(500).json({ error: 'Erro ao buscar dados do herói.' });
             }
+            const heroi = heroResults[0].vida_heroi;
             console.log("ResultQueryHeroi: ", heroResults);
 
             // Consulta para obter os dados do vilão
@@ -146,11 +150,33 @@ app.get('/characters', async (req, res) => {
                     console.error('Erro ao buscar dados do vilão:', err);
                     return res.status(500).json({ error: 'Erro ao buscar dados do vilão.' });
                 }
+                const vilao = villainResults[0].vida_vilao;
                 console.log("ResultQueryVilao: ", villainResults);
 
-                res.json({ heroResults, villainResults });
-            })
-        })
+                // Consulta para obter os dados do console do heroi
+                connection.query(heroConsoleQuery, function (err, heroConsoleResults) {
+                    if (err) {
+                        console.error('Erro ao buscar dados do console de heroi:', err);
+                        return res.status(500).json({ error: 'Erro ao buscar dados do console de heroi.' });
+                    }
+                    const heroiC = heroConsoleResults[0].acao_heroi;
+                    console.log("ResultadoConsoleHeroiQuery: ", heroConsoleResults);
+
+                    // Consulta para obter os dados do console do vilao
+                    connection.query(villainConsoleQuery, function (err, villainConsoleResults) {
+                        if (err) {
+                            console.error('Erro ao buscar dados do console de vilao:', err);
+                            return res.status(500).json({ error: 'Erro ao buscar dados do console de vilao.' });
+                        }
+                        const vilaoC = villainConsoleResults[0].acao_vilao;
+                        console.log("ResultadoConsoleVilaoQuery: ", villainConsoleResults)
+
+
+                        res.json({ heroi, vilao, heroiC, vilaoC });
+                    });
+                });
+            });
+        });
     } catch (error) {
         console.error('Erro ao buscar dados do herói e do vilão:', error);
         res.status(500).json({ error: 'Erro ao buscar dados do herói e do vilão.' });

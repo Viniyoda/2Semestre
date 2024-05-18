@@ -31,6 +31,7 @@ createApp({
                 if (defenderH == false) {
                     this.heroi.vida -= 20;
                     this.atualizarVidaNoBD(this.heroi.vida, this.vilao.vida);
+                    
                 }
                 else {
                 }

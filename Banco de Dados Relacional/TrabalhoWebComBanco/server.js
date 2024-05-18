@@ -39,11 +39,20 @@ app.use(express.static(path.join(__dirname)));
 
 
 let user = '';
+let userID = 0;
 // Rota de login
 app.post('/login', (req, res) => {
     console.log("Teste", req.body)
     const { username, password } = req.body;
     const queryLogin = `SELECT * FROM usuarios WHERE nome_usuario = '${username}' AND senha_usuario = '${password}'`;
+    const queryUserID = `SELECT usuario_id FROM usuarios WHERE nome_usuario = '${username}'`
+
+    connection.query(queryUserID, function (err, results) {
+        if (results.length > 0) {
+            userID = results[0].usuario_id;
+            console.log("UserID: ", userID);
+        }
+    });
     
     connection.query(queryLogin,function (err, results) {
         if (err) {
@@ -109,14 +118,14 @@ app.post('/atualizarVida', async (req, res) => {
     const { vidaHeroi, vidaVilao, } = req.body;
     try {
         await request.query(`
-      MERGE INTO jogo AS target
-      USING (VALUES ('heroi', ${vidaHeroi}), ('vilao', ${vidaVilao})) AS source (Nome, Vida)
-      ON target.Nome = source.Nome
-      WHEN MATCHED THEN
-        UPDATE SET Vida = source.Vida
-      WHEN NOT MATCHED THEN
-        INSERT (Nome, Vida) VALUES (source.Nome, source.Vida);
-      `);
+        UPDATE jogo
+        SET vida_heroi = ${vidaHeroi}, vida_vilao = ${vidaVilao}
+        WHERE usuario_id = ${userID}
+        `);
+        if (results.affectedRows === 0) {
+            return res.status(404).send('Usuário não encontrado.');
+        }
+
         res.status(200).send('Vida do herói e do vilão atualizada com sucesso.');
     } catch (err) {
         console.error(err);

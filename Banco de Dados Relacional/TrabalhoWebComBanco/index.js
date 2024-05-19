@@ -1,12 +1,13 @@
 const { createApp } = Vue;
-
+const { debounce } = ('lodash');
 createApp({
     data() {
         return {
             heroi: {vida: 100, pocao: 3},
             vilao: {vida: 100, pocao: 3},
             consoleH: "",
-            consoleV: ""
+            consoleV: "",
+            usuarioId: 0
         }
     },
     setup() {
@@ -20,7 +21,6 @@ createApp({
                 this.acaoVilao();
                 if (defenderV == false) {
                     this.vilao.vida -= 10;
-                    this.atualizarVidaNoBD(this.heroi.vida, this.vilao.vida);
                 }
                 else {
                 }
@@ -30,8 +30,6 @@ createApp({
                 console.log("Vilão atacou");
                 if (defenderH == false) {
                     this.heroi.vida -= 20;
-                    this.atualizarVidaNoBD(this.heroi.vida, this.vilao.vida);
-                    
                 }
                 else {
                 }
@@ -42,23 +40,26 @@ createApp({
         async atualizarVidaNoBD() {
             console.log("entramos no atualizarVidaNoBD");
             try {
-              const response = await fetch('http://localhost:3000/atualizarVida', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ 
-                    vidaHeroi: this.heroi.vida,
-                    vidaVilao: this.vilao.vida })
-              });
-              if (!response.ok) {
-                console.log('Erro ao atualizar a vida no banco de dados.');
-              }
-              console.log('Vida do herói e do vilão atualizada com sucesso.');
+                const response = await fetch('http://localhost:3000/atualizarVida', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        vidaHeroi: this.heroi.vida,
+                        vidaVilao: this.vilao.vida,
+                        consoleHeroi: this.consoleH,
+                        consoleVilao: this.consoleV,
+                        userID: this.usuarioId  // Certifique-se de que `this.usuarioId` está definido no Vue.js
+                    })
+                });
             } catch (error) {
-              console.error('Erro ao atualizar a vida no banco de dados:', error);
+                console.log('Erro ao atualizar a vida no banco de dados:', error);
             }
-          },
+        },
+        async atualizarVidaERedirecionar() {
+            await this.atualizarVidaNoBD();
+        },
         defender(isHeroi) {
             if (isHeroi) {
                 defenderH = true;
@@ -78,7 +79,6 @@ createApp({
                     if (this.heroi.vida >= 100) {
                         this.heroi.vida = 100;
                     }
-                    this.atualizarVidaNoBD(this.heroi.vida, this.vilao.vida);
                     this.consoleH = "Herói usou poção | " + this.heroi.pocao;
                 }
                 else {
@@ -94,7 +94,6 @@ createApp({
                     if (this.vilao.vida >= 100) {
                         this.vilao.vida = 100;
                     }
-                    this.atualizarVidaNoBD(this.heroi.vida, this.vilao.vida);
                     this.consoleV = "Vilão usou poção | " + this.vilao.pocao;
                 }
                 else {
@@ -111,13 +110,11 @@ createApp({
                 if (numAtaque == numCerto) {
                     this.consoleH = "Herói acertou o especial"
                     this.vilao.vida -= 20;
-                    this.atualizarVidaNoBD(this.heroi.vida, this.vilao.vida);
                 } else { this.consoleH = "Herói errou o especial" }
             } else {
                 if (numAtaque == numCerto) {
                     this.consoleV = "Vilão acertou o especial"
                     this.heroi.vida -= 25;
-                    this.atualizarVidaNoBD(this.heroi.vida, this.vilao.vida);
                 } else { this.consoleV = "Vilão errou o especial" }
             }
             this.defenderReset();

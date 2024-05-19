@@ -46,13 +46,6 @@ app.post('/login', (req, res) => {
     const { username, password } = req.body;
     const queryLogin = `SELECT * FROM usuarios WHERE nome_usuario = '${username}' AND senha_usuario = '${password}'`;
     const queryUserID = `SELECT usuario_id FROM usuarios WHERE nome_usuario = '${username}'`
-
-    connection.query(queryUserID, function (err, results) {
-        if (results.length > 0) {
-            userID = results[0].usuario_id;
-            console.log("UserID: ", userID);
-        }
-    });
     
     connection.query(queryLogin,function (err, results) {
         if (err) {
@@ -62,11 +55,24 @@ app.post('/login', (req, res) => {
         }
 
         if (results.length > 0) {
-            // Redirecionar para a tela do jogo
             user = username;
+            // Redirecionar para a tela do jogo
             res.sendFile(path.join(__dirname, '/pages/joguinho.html'));
+
+            //Rora para fornecero usuario_id ao código .js
+            connection.query(queryUserID, function (err, results) {
+                if (results.length > 0) {
+                    userID = results[0].usuario_id;
+                    console.log("UserID: ", userID);
+                }
+            });
+
         } else {
-            res.status(401).send('Usuário ou senha incorretos.');
+            // Alerta de igualdade
+            res.write('<script>alert("Usuario ou senha incorretos, tente novamente");</script>');
+            // Redirecionar para a tela de cadastro novamente
+            res.write('<script>setTimeout(function() { window.location.href = "/index.html"; }, 300);</script>');
+            res.end();;
         }
     });
 });
@@ -88,9 +94,9 @@ app.post('/cadastro', (req, res) => {
         
         if (results.length > 0) {
             // Alerta de igualdade
-            res.write('<script>alert("Cadastro ja realizado, tente outro usuario e senha");</script>');
+            res.write('<script>alert("Cadastro indisponivel, tente outro usuario e senha");</script>');
             // Redirecionar para a tela de cadastro novamente
-            res.write('<script>setTimeout(function() { window.location.href = "/pages/cadastro.html"; }, 400);</script>');
+            res.write('<script>setTimeout(function() { window.location.href = "/pages/cadastro.html"; }, 300);</script>');
             res.end();
         } else{
             connection.query(queryCadastro,function (err, results) {
@@ -115,22 +121,21 @@ app.post('/cadastro', (req, res) => {
 
 // Rota para atualizar a vida do herói e do vilão
 app.post('/atualizarVida', async (req, res) => {
-    const { vidaHeroi, vidaVilao, } = req.body;
-    try {
-        await request.query(`
-        UPDATE jogo
-        SET vida_heroi = ${vidaHeroi}, vida_vilao = ${vidaVilao}
-        WHERE usuario_id = ${userID}
-        `);
-        if (results.affectedRows === 0) {
-            return res.status(404).send('Usuário não encontrado.');
+    const { vidaHeroi, vidaVilao, consoleHeroi, consoleVilao } = req.body;
+    connection.query(`UPDATE jogo SET vida_heroi = ${vidaHeroi}, vida_vilao = ${vidaVilao} WHERE usuario_id = ${userID}`, function(err, results) {
+        if (err) {
+            console.log("Erro ao atulizar a vida do heroi e vilao", err);
         }
-
-        res.status(200).send('Vida do herói e do vilão atualizada com sucesso.');
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Erro ao atualizar a vida do herói e do vilão.');
-    }
+        console.log("AtualizarVidaTeste: ", vidaHeroi, vidaVilao);
+        console.log("Vida do herói e do vilão atualizada com sucesso.");
+    });
+    connection.query(`UPDATE jogo SET acao_heroi = '${consoleHeroi}', acao_vilao = '${consoleVilao}' WHERE usuario_id = ${userID}`, function(err, results) {
+        if (err) {
+            console.log("Erro ao atulizar o console do heroi e vilao", err);
+        }
+        console.log("AtualizarConsoleTeste: ", consoleHeroi, consoleVilao);
+        console.log("Console do herói e vilão atualizado com sucesso.");
+    });
 });
 
 

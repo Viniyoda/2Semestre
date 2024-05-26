@@ -14,6 +14,8 @@ CREATE TABLE jogo (
     usuario_id				INT,
     vida_heroi				DOUBLE,
     vida_vilao				DOUBLE,
+    acao_heroi				TEXT,
+    acao_vilao				TEXT,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(usuario_id)
 );
 SELECT * FROM jogo;
